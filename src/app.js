@@ -2,7 +2,6 @@ const http = require('http');
 const {getUsers} = require('../modules/usersModule');
 
 const server = http.createServer((request, response) => {
-    
     const url = new URL(request.url, 'http://127.0.0.1');
 
     if(url.searchParams.has("hello") ) {
@@ -61,6 +60,7 @@ const server = http.createServer((request, response) => {
 
 });
 
-server.listen(3000, '127.0.0.1', () => {
-console.log('Сервер запущен по адресу http://127.0.0.1:3000/');
+const port = process.env.nodejsport || 3003;
+server.listen(port, '127.0.0.1', () => {
+console.log(`Сервер запущен по адресу http://127.0.0.1:${port}/`);
 } );
