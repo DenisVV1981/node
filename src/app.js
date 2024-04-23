@@ -9,57 +9,108 @@ const server = http.createServer((request, response) => {
 
     if(url.searchParams.has("hello") ) {
         if(url.searchParams.get("hello") === "")        {
-            response.statusCode = 400;
-            response.statusMessage = 'Bad';
-            response.header = "Content-Type: text/plain";
+            response.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
             response.write("Enter a name");
             response.end();
         } else{
-            response.statusCode = 200;
-            response.statusMessage = 'Ok';
-            response.header = "Content-Type: text/plain";
+            response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
             response.write("Hello, " + url.searchParams.get("hello"));
             response.end();
         }       
-    
         return;
     }
 
     if(url.pathname === '/users') {
-        response.statusCode = 200;
-        response.statusMessage = 'OK';
-        response.header = "Content-Type: application/json";
-        response.write(getUsers());
-        response.end();
-    
+        if (request.method === "GET") {
+            response.writeHead(200, { 'Content-Type': 'application/json' });
+            response.end(getUsers());
+            return;
+        } else if (request.method === 'POST'){
+            response.writeHead(200, { 'Content-Type': 'application/json' });
+            response.write(getUsers());
+            response.end();
+        } else if (request.method === 'DELETE') {
+            response.writeHead(200, { 'Content-Type': 'application/json' });
+            response.write(getUsers());
+            response.end();
+        } 
+        
+        return;
+    }
+    if(url.pathname === '/books') {
+        if (request.method === "GET") {
+            response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+            response.write("Получить список книг");
+            response.end();
+        } else if (request.method === 'POST'){
+            response.writeHead(200, { 'Content-Type': 'application/json' });
+            response.write(getUsers());
+            response.end();
+        } else if (request.method === 'DELETE') {
+            response.writeHead(200, { 'Content-Type': 'application/json' });
+            response.write(getUsers());
+            response.end();
+        } 
+        
         return;
     }
 
-    if(url.searchParams.size === 0) {
-        response.statusCode = 200;
-        response.statusMessage = 'Ok';
-        response.header = "Content-Type: text/plain";
-        response.write("Hello, World!");
-        response.end();
-    
+
+    if (url.pathname === '/users/books'){
+        let userId=null;
+        if(url.searchParams.has("userId") ) {
+            if(url.searchParams.get("userId") === "")        {
+                response.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+                response.write("Enter a userId");
+                response.end();
+                return;
+            } else{
+                userId = url.searchParams.get("hello");
+            }       
+        }
+
+        if (request.method === "GET") {
+            response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+            response.write("Получить список книг, взятых пользователем с указанным ID");
+            response.end();
+            return;
+        } else{
+
+            let bookId=null;
+            if(url.searchParams.has("bookId") ) {
+                if(url.searchParams.get("bookId") === "")        {
+                    response.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+                    response.write("Enter a bookId");
+                    response.end();
+                    return;
+                } else{
+                    bookId = url.searchParams.get("bookId");
+                }       
+            }
+            
+            if (request.method === 'POST'){
+                response.writeHead(200, { 'Content-Type': 'application/json' });
+                response.write(getUsers());
+                response.end();
+
+                console.log(userId);
+                console.log(bookId);
+
+            } else if (request.method === 'DELETE') {
+                response.writeHead(200, { 'Content-Type': 'application/json' });
+                response.write(getUsers());
+                response.end();
+
+                console.log(userId);
+                console.log(bookId);
+            } 
+        } 
+        
         return;
     }
-
-    if(url.searchParams.size > 0) {
-        response.statusCode = 500;
-        response.statusMessage = 'Bad Request';
-        //response.header = "Content-Type: application/json";
-        //response.write("Hello, World!");
-        response.end();
     
-        return;
-    }
+    return;
 
-    response.statusCode = 200;
-    response.statusMessage = 'OK';
-    response.header = "Content-Type: text/plain";
-    response.write("Hello, ");
-    response.end();
 
 });
 
