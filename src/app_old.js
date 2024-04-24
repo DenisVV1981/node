@@ -2,7 +2,7 @@
 
 
 const http = require('http');
-const {getUsers} = require('../modules/usersModule');
+const {getUsers} = require('./modules/usersModule');
 
 const server = http.createServer((request, response) => {
     const url = new URL(request.url, 'http://127.0.0.1');
