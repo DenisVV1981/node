@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
@@ -7,10 +7,9 @@ dotenv.config();
 
 const { PORT = 3005, API_URL = 'http://localhost', MONGO_CONNECTION='mongodb://localhost:27017/mydb' } = process.env;
 
-// mongoose.connect(MONGO_CONNECTION, err => {
-//     if(err) throw err;
-//     console.log('Connected to MongoDB');
-// });
+mongoose.connect(MONGO_CONNECTION, {},)
+    .then((res) => { console.log("Database connected");})
+    .catch(error => {console.log(error);});
 
 app.get('/', (request, response) => {
     response.status(200);
@@ -27,11 +26,10 @@ app.get('/users/:userId', (request, response) => {
     response.status(200);
     response.send("Hello, World!/users/:userId");
 });
-app.post('/users/:userId', (request, response) => {
-    const { userId } = request.params;
-    console.log("Add a user. Received user ID from the URL:" + userId);
+app.post('/users/', (request, response) => {
+    console.log("Add a user");
     response.status(200);
-    response.send("Hello, World!/users/:userId");
+    response.send("Hello, World!/users/");
 });
 app.put('/users/:userId', (request, response) => {
     const { userId } = request.params;
@@ -56,11 +54,10 @@ app.get('/books/:bookId', (request, response) => {
     response.status(200);
     response.send("Hello, World!/books/:bookId");
 });
-app.post('/books/:bookId', (request, response) => {
-    const { bookId } = request.params;
-    console.log("Add a book. Received book ID from the URL:" + bookId);
+app.post('/books', (request, response) => {
+    console.log("Add a book");
     response.status(200);
-    response.send("Hello, World!/books/:bookId");
+    response.send("Hello, World!/books/");
 });
 app.put('/books/:bookId', (request, response) => {
     const { bookId } = request.params;
@@ -80,11 +77,11 @@ app.get('/users/:userId/books/', (request, response) => {
     response.status(200);
     response.send("Hello, World! /users/:userId/books/");
 });
-app.post('/users/:userId/books/:bookId/', (request, response) => {
-    const { userId, bookId } = request.params;
-    console.log("Add a user book. Received book ID and user ID from the URL:" +userId + bookId);
+app.post('/users/:userId/books/', (request, response) => {
+    const { userId } = request.params;
+    console.log("Add a user book. Received user ID from the URL:" +userId );
     response.status(200);
-    response.send("Hello, World!/users/:userId/books/:bookId/");
+    response.send("Hello, World!/users/:userId/books/");
 });
 app.delete('/users/:userId/books/:bookId/', (request, response) => {
     const { userId, bookId } = request.params;
