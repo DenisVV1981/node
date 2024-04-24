@@ -46,6 +46,52 @@ app.delete('/users/:userId', (request, response) => {
     response.send("Hello, World!/users/:userId");
 });
 
+app.get('/books/', (request, response) => {
+    response.status(200);
+    response.send("Hello, World! /books");
+});
+app.get('/books/:bookId', (request, response) => {
+    const { bookId } = request.params;
+    console.log("Get a book. Received book ID from the URL:" + bookId);
+    response.status(200);
+    response.send("Hello, World!/books/:bookId");
+});
+app.post('/books/:bookId', (request, response) => {
+    const { bookId } = request.params;
+    console.log("Add a book. Received book ID from the URL:" + bookId);
+    response.status(200);
+    response.send("Hello, World!/books/:bookId");
+});
+app.put('/books/:bookId', (request, response) => {
+    const { bookId } = request.params;
+    console.log("Update a book. Received book ID from the URL:" + bookId);
+    response.status(200);
+    response.send("Hello, World!/books/:bookId");
+});
+app.delete('/books/:bookId', (request, response) => {
+    const { bookId } = request.params;
+    console.log("Remove a book. Received book ID from the URL:" + bookId);
+    response.status(200);
+    response.send("Hello, World!/books/:bookId");
+});
+
+
+app.get('/users/:userId/books/', (request, response) => {
+    response.status(200);
+    response.send("Hello, World! /users/:userId/books/");
+});
+app.post('/users/:userId/books/:bookId/', (request, response) => {
+    const { userId, bookId } = request.params;
+    console.log("Add a user book. Received book ID and user ID from the URL:" +userId + bookId);
+    response.status(200);
+    response.send("Hello, World!/users/:userId/books/:bookId/");
+});
+app.delete('/users/:userId/books/:bookId/', (request, response) => {
+    const { userId, bookId } = request.params;
+    console.log("Remove a user book. Received book ID and user ID from the URL:" +userId + bookId);
+    response.status(200);
+    response.send("Hello, World!/users/:userId/books/:bookId/");
+});
 
 app.listen(PORT, () => {
     console.log(`Ссылка на сервер: ${API_URL}:${PORT}`);
