@@ -55,7 +55,10 @@ const deleteBook = (req, res) => {
     const { bookId } = req.params;
     Book.findByIdAndDelete(bookId)
         .then(book => {
-            res.status(200).send("Done");
+            if(book === null)
+                res.status(404).send("Данные не найдены");
+            else
+                res.status(200).send(book);
         })
         .catch(e => {
             res.status(500).send(e.message);
